@@ -71,13 +71,6 @@ export function MessageItem({ message }: { message: Message }) {
                   ),
               }}
             />
-            {message.role === "assistant" && (
-              <Box>
-                <Text size="sm" color="dimmed">
-                  {wordCount} words
-                </Text>
-              </Box>
-            )}
           </Box>
           <Box>
             <CreatePromptModal content={message.content} />
@@ -90,11 +83,6 @@ export function MessageItem({ message }: { message: Message }) {
                 </Tooltip>
               )}
             </CopyButton>
-            {/* <Tooltip label={`${wordCount} words`} position="left">
-              <ActionIcon>
-                <IconInfoCircle opacity={0.5} size={20} />
-              </ActionIcon>
-            </Tooltip> */}
           </Box>
         </Flex>
       </Card>

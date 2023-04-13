@@ -20,19 +20,11 @@ import { AiOutlineSend } from "react-icons/ai";
 import { MessageItem } from "../components/MessageItem";
 import { db } from "../db";
 import { useChatId } from "../hooks/useChatId";
-import {
-  writingCharacters,
-  writingFormats,
-  writingStyles,
-  writingTones,
-} from "../utils/constants";
-import { createChatCompletion } from "../utils/openai";
+import { usecases } from "../utils/constants";
+import { getCompleteion } from "../utils/openai";
 
 export function ChatRoute() {
   const chatId = useChatId();
-  const apiKey = useLiveQuery(async () => {
-    return (await db.settings.where({ id: "general" }).first())?.openAiApiKey;
-  });
   const messages = useLiveQuery(() => {
     if (!chatId) return [];
     return db.messages.where("chatId").equals(chatId).sortBy("createdAt");
@@ -45,41 +37,17 @@ export function ChatRoute() {
     return db.chats.get(chatId);
   }, [chatId]);
 
-  const [writingCharacter, setWritingCharacter] = useState<string | null>(null);
-  const [writingTone, setWritingTone] = useState<string | null>(null);
-  const [writingStyle, setWritingStyle] = useState<string | null>(null);
-  const [writingFormat, setWritingFormat] = useState<string | null>(null);
-
-  const getSystemMessage = () => {
-    const message: string[] = [];
-    if (writingCharacter) message.push(`You are ${writingCharacter}.`);
-    if (writingTone) message.push(`Respond in ${writingTone} tone.`);
-    if (writingStyle) message.push(`Respond in ${writingStyle} style.`);
-    if (writingFormat) message.push(writingFormat);
-    if (message.length === 0)
-      message.push(
-        "You are ChatGPT, a large language model trained by OpenAI."
-      );
-    return message.join(" ");
-  };
+  const [usecase, setUsecase] = useState<string | null>(null);
 
   const submit = async () => {
     if (submitting) return;
+    if (usecase === null) return;
 
     if (!chatId) {
       notifications.show({
         title: "Error",
         color: "red",
         message: "chatId is not defined. Please create a chat to get started.",
-      });
-      return;
-    }
-
-    if (!apiKey) {
-      notifications.show({
-        title: "Error",
-        color: "red",
-        message: "OpenAI API Key is not defined. Please set your API Key",
       });
       return;
     }
@@ -96,11 +64,7 @@ export function ChatRoute() {
       });
       setContent("");
 
-      const result = await createChatCompletion(apiKey, [
-        {
-          role: "system",
-          content: getSystemMessage(),
-        },
+      const result = await getCompleteion(usecase, [
         ...(messages ?? []).map((message) => ({
           role: message.role,
           content: message.content,
@@ -132,11 +96,8 @@ export function ChatRoute() {
         const messages = await db.messages
           .where({ chatId })
           .sortBy("createdAt");
-        const createChatDescription = await createChatCompletion(apiKey, [
-          {
-            role: "system",
-            content: getSystemMessage(),
-          },
+
+        const createChatDescription = await getCompleteion(usecases[0].value, [
           ...(messages ?? []).map((message) => ({
             role: message.role,
             content: message.content,
@@ -147,6 +108,7 @@ export function ChatRoute() {
               "What would be a short and relevant title for this chat ? You must strictly answer with only the title, no other text is allowed.",
           },
         ]);
+
         const chatDescription =
           createChatDescription.data.choices[0].message?.content;
 
@@ -220,57 +182,25 @@ export function ChatRoute() {
         })}
       >
         <Container>
-          {messages?.length === 0 && (
-            <SimpleGrid
-              mb="sm"
-              spacing="xs"
-              breakpoints={[
-                { minWidth: "sm", cols: 4 },
-                { maxWidth: "sm", cols: 2 },
-              ]}
-            >
-              <Select
-                value={writingCharacter}
-                onChange={setWritingCharacter}
-                data={writingCharacters}
-                placeholder="Character"
-                variant="filled"
-                searchable
-                clearable
-                sx={{ flex: 1 }}
-              />
-              <Select
-                value={writingTone}
-                onChange={setWritingTone}
-                data={writingTones}
-                placeholder="Tone"
-                variant="filled"
-                searchable
-                clearable
-                sx={{ flex: 1 }}
-              />
-              <Select
-                value={writingStyle}
-                onChange={setWritingStyle}
-                data={writingStyles}
-                placeholder="Style"
-                variant="filled"
-                searchable
-                clearable
-                sx={{ flex: 1 }}
-              />
-              <Select
-                value={writingFormat}
-                onChange={setWritingFormat}
-                data={writingFormats}
-                placeholder="Format"
-                variant="filled"
-                searchable
-                clearable
-                sx={{ flex: 1 }}
-              />
-            </SimpleGrid>
-          )}
+          <SimpleGrid
+            mb="sm"
+            spacing="xs"
+            breakpoints={[
+              { minWidth: "sm", cols: 4 },
+              { maxWidth: "sm", cols: 2 },
+            ]}
+          >
+            <Select
+              value={usecase}
+              onChange={setUsecase}
+              data={usecases}
+              placeholder="Use Case"
+              variant="filled"
+              searchable
+              clearable
+              sx={{ flex: 1 }}
+            />
+          </SimpleGrid>
           <Flex gap="sm">
             <Textarea
               key={chatId}

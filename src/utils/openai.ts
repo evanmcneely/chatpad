@@ -1,6 +1,12 @@
-import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
+import {
+  ChatCompletionRequestMessage,
+  CreateChatCompletionResponse,
+  Configuration,
+  OpenAIApi,
+} from "openai";
 import { db } from "../db";
 import { defaultModel } from "./constants";
+import { AxiosResponse } from "axios";
 
 function getClient(apiKey: string) {
   const configuration = new Configuration({
@@ -31,4 +37,19 @@ export async function checkOpenAIKey(apiKey: string) {
       content: "hello",
     },
   ]);
+}
+
+export async function getCompleteion(
+  path: string,
+  messages: ChatCompletionRequestMessage[]
+): Promise<AxiosResponse<CreateChatCompletionResponse, any>> {
+  return fetch(path, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messages,
+    }),
+  }).then((res) => res.json());
 }

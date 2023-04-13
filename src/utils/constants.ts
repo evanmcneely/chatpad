@@ -15,6 +15,21 @@ export const availableModels = [
   },
 ];
 
+export const usecases = [
+  {
+    label: "Chat",
+    value: "chat",
+  },
+  {
+    label: "Code",
+    value: "code",
+  },
+  {
+    label: "Search",
+    value: "search",
+  },
+];
+
 export const writingCharacters = [
   {
     label: "Standup Comedian",

@@ -54,7 +54,7 @@ export function LogoIcon(props: JSX.IntrinsicElements["svg"]) {
     <svg
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 118 117"
+      viewBox="0 0 150 150"
       {...props}
     >
       <path

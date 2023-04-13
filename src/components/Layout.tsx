@@ -86,19 +86,11 @@ export function Layout() {
                 borderBottom: border,
               }}
             >
-              <Link
-                to="/"
-                className="app-region-no-drag"
-                style={{ marginTop: 10, padding: 4 }}
+              <div
+                style={{ fontSize: 30, color: "#27B882", fontWeight: "bold" }}
               >
-                <LogoText
-                  style={{
-                    height: 22,
-                    color: "#27B882",
-                    display: "block",
-                  }}
-                />
-              </Link>
+                Jackson
+              </div>
               <MediaQuery largerThan="md" styles={{ display: "none" }}>
                 <Burger
                   opened={opened}
@@ -201,13 +193,6 @@ export function Layout() {
                   )}
                 </ActionIcon>
               </Tooltip>
-              <SettingsModal>
-                <Tooltip label="Settings">
-                  <ActionIcon sx={{ flex: 1 }} size="xl">
-                    <IconSettings size={20} />
-                  </ActionIcon>
-                </Tooltip>
-              </SettingsModal>
               <DatabaseModal>
                 <Tooltip label="Database">
                   <ActionIcon sx={{ flex: 1 }} size="xl">
@@ -215,47 +200,6 @@ export function Layout() {
                   </ActionIcon>
                 </Tooltip>
               </DatabaseModal>
-              <Tooltip label="Source Code">
-                <ActionIcon
-                  component="a"
-                  href="https://github.com/deiucanta/chatpad"
-                  target="_blank"
-                  sx={{ flex: 1 }}
-                  size="xl"
-                >
-                  <IconBrandGithub size={20} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label="Follow on Twitter">
-                <ActionIcon
-                  component="a"
-                  href="https://twitter.com/deiucanta"
-                  target="_blank"
-                  sx={{ flex: 1 }}
-                  size="xl"
-                >
-                  <IconBrandTwitter size={20} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label="Give Feedback">
-                <ActionIcon
-                  component="a"
-                  href="https://feedback.chatpad.ai"
-                  onClick={(event) => {
-                    if (window.todesktop) {
-                      event.preventDefault();
-                      window.todesktop.contents.openUrlInBrowser(
-                        "https://feedback.chatpad.ai"
-                      );
-                    }
-                  }}
-                  target="_blank"
-                  sx={{ flex: 1 }}
-                  size="xl"
-                >
-                  <IconMessage size={20} />
-                </ActionIcon>
-              </Tooltip>
             </Center>
           </Navbar.Section>
         </Navbar>
@@ -271,10 +215,7 @@ export function Layout() {
                 height: "100%",
               }}
             >
-              {`${chat.description} - ${chat.totalTokens ?? 0} tokens ~ $${(
-                ((chat.totalTokens ?? 0) * 0.002) /
-                1000
-              ).toFixed(5)}`}
+              {`${chat.description} - ${chat.totalTokens ?? 0}`}
             </div>
           </Header>
         ) : undefined

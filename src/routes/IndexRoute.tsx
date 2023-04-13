@@ -24,6 +24,9 @@ export function IndexRoute() {
   const settings = useLiveQuery(() => db.settings.get("general"));
   const { openAiApiKey } = settings ?? {};
 
+  // return early, don't show this page
+  return;
+
   return (
     <>
       <Center py="xl" sx={{ height: "100%" }}>

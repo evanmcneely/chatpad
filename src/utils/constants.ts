@@ -21,13 +21,17 @@ export const usecases = [
     value: "chat",
   },
   {
-    label: "Code",
-    value: "code",
+    label: "Mixpanel",
+    value: "mixpanel",
   },
-  {
-    label: "Search",
-    value: "search",
-  },
+  // {
+  //   label: "Code",
+  //   value: "code",
+  // },
+  // {
+  //   label: "Search",
+  //   value: "search",
+  // },
 ];
 
 export const writingCharacters = [

@@ -15,6 +15,10 @@ function getClient(apiKey: string) {
   return new OpenAIApi(configuration);
 }
 
+interface CompletionResponse {
+  content: string;
+}
+
 export async function createChatCompletion(
   apiKey: string,
   messages: ChatCompletionRequestMessage[]
@@ -42,7 +46,7 @@ export async function checkOpenAIKey(apiKey: string) {
 export async function getCompleteion(
   path: string,
   messages: ChatCompletionRequestMessage[]
-): Promise<AxiosResponse<CreateChatCompletionResponse, any>> {
+): Promise<CompletionResponse> {
   return fetch(path, {
     method: "POST",
     headers: {

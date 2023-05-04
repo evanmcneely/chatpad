@@ -21,8 +21,8 @@ export const usecases = [
     value: "chat",
   },
   {
-    label: "Mixpanel",
-    value: "mixpanel",
+    label: "Agent",
+    value: "agent",
   },
   // {
   //   label: "Code",

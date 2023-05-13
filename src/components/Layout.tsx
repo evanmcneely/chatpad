@@ -204,22 +204,22 @@ export function Layout() {
           </Navbar.Section>
         </Navbar>
       }
-      header={
-        chat ? (
-          <Header height={60} p="xs" className="app-region-drag">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-              }}
-            >
-              {`${chat.description} - ${chat.totalTokens ?? 0}`}
-            </div>
-          </Header>
-        ) : undefined
-      }
+      // header={
+      //   chat ? (
+      //     <Header height={60} p="xs" className="app-region-drag">
+      //       <div
+      //         style={{
+      //           display: "flex",
+      //           alignItems: "center",
+      //           justifyContent: "center",
+      //           height: "100%",
+      //         }}
+      //       >
+      //         {`${chat.description} - ${chat.totalTokens ?? 0}`}
+      //       </div>
+      //     </Header>
+      //   ) : undefined
+      // }
       layout="alt"
       padding={0}
     >

@@ -37,7 +37,7 @@ export function ChatRoute() {
     return db.chats.get(chatId);
   }, [chatId]);
 
-  const [usecase, setUsecase] = useState<string | null>(null);
+  const [usecase, setUsecase] = useState<string | null>(usecases[1].value);
 
   const submit = async () => {
     if (submitting) return;
@@ -131,14 +131,7 @@ export function ChatRoute() {
         })}
       >
         <Container>
-          <SimpleGrid
-            mb="sm"
-            spacing="xs"
-            breakpoints={[
-              { minWidth: "sm", cols: 4 },
-              { maxWidth: "sm", cols: 2 },
-            ]}
-          >
+          <Flex gap="sm" direction="row">
             <Select
               value={usecase}
               onChange={setUsecase}
@@ -147,10 +140,9 @@ export function ChatRoute() {
               variant="filled"
               searchable
               clearable
-              sx={{ flex: 1 }}
+              size="sm"
+              sx={{ maxWidth: 150, flex: 1 }}
             />
-          </SimpleGrid>
-          <Flex gap="sm">
             <Textarea
               key={chatId}
               sx={{ flex: 1 }}
